@@ -6,351 +6,469 @@
     <title>PowerPocket | Akses Keuangan Keluarga yang Aman & Inklusif</title>
     <style>
         /* CSS Reset & Variables */
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
         :root {
-            --primary: #0f4c5c; /* Dark Teal */
-            --secondary: #8bd460; /* Light Green */
-            --bg-light: #f8fafc;
-            --text-main: #334155;
+            --primary: #0f4c5c;
+            --primary-light: #166b82;
+            --secondary: #8bd460;
+            --secondary-dark: #6eb347;
+            --bg-light: #f4f7f9;
+            --text-main: #1e293b;
             --text-muted: #64748b;
             --white: #ffffff;
-            --transition: all 0.3s ease;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.05);
+            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', -apple-system, sans-serif; scroll-behavior: smooth; }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; scroll-behavior: smooth; }
         body { background-color: var(--bg-light); color: var(--text-main); line-height: 1.7; overflow-x: hidden; }
         
         /* Typography */
-        h1, h2, h3, h4 { color: var(--primary); font-weight: 700; line-height: 1.2; }
+        h1, h2, h3, h4 { color: var(--primary); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
         p { color: var(--text-muted); margin-bottom: 1rem; }
-        a { text-decoration: none; color: var(--primary); }
+        a { text-decoration: none; color: inherit; }
         
-        /* Layout */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--secondary) 0%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Layout Utilities */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        .section { padding: 100px 0; }
-        .section-light { background-color: var(--white); }
-        .section-dark { background-color: var(--primary); color: var(--white); }
-        .section-dark h2, .section-dark p { color: var(--white); }
+        .section { padding: 120px 0; }
         .text-center { text-align: center; }
         .mb-2 { margin-bottom: 0.5rem; }
         .mb-4 { margin-bottom: 1.5rem; }
-        .mb-8 { margin-bottom: 3rem; }
+        .mb-10 { margin-bottom: 4rem; }
         
         /* Buttons */
         .btn {
-            display: inline-block; padding: 14px 32px; border-radius: 50px; font-weight: 600;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 16px 36px; border-radius: 50px; font-weight: 600; font-size: 1rem;
             cursor: pointer; transition: var(--transition); border: 2px solid transparent;
         }
-        .btn-primary { background-color: var(--secondary); color: var(--primary); }
-        .btn-primary:hover { background-color: #76bc4d; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(139, 212, 96, 0.3); }
-        .btn-outline { background-color: transparent; border-color: var(--white); color: var(--white); }
-        .btn-outline:hover { background-color: rgba(255,255,255,0.1); }
+        .btn-primary { background-color: var(--secondary); color: var(--primary); box-shadow: 0 4px 14px rgba(139, 212, 96, 0.4); }
+        .btn-primary:hover { background-color: var(--secondary-dark); transform: translateY(-3px); box-shadow: 0 8px 25px rgba(139, 212, 96, 0.5); }
+        .btn-outline { background-color: transparent; border-color: rgba(255,255,255,0.3); color: var(--white); backdrop-filter: blur(5px); }
+        .btn-outline:hover { background-color: var(--white); color: var(--primary); border-color: var(--white); }
 
-        /* Navbar */
-        nav { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); transition: var(--transition); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 80px; }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 10px;}
-        .logo-dot { width: 12px; height: 12px; background-color: var(--secondary); border-radius: 50%; }
-        .nav-links { display: flex; gap: 32px; }
-        .nav-links a { font-weight: 500; transition: var(--transition); }
-        .nav-links a:hover { color: var(--secondary); }
+        /* Navbar - Glassmorphism */
+        nav { position: fixed; top: 0; width: 100%; background: var(--glass-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.3); transition: var(--transition); }
+        nav.scrolled { box-shadow: 0 4px 20px rgba(0,0,0,0.05); background: rgba(255, 255, 255, 0.95); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 84px; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 10px; z-index: 1001; }
+        .logo-dot { width: 12px; height: 12px; background-color: var(--secondary); border-radius: 50%; box-shadow: 0 0 10px var(--secondary); }
+        .nav-links { display: flex; gap: 40px; align-items: center; }
+        .nav-links a { font-weight: 600; color: var(--text-main); transition: var(--transition); font-size: 0.95rem; }
+        .nav-links a:hover { color: var(--primary-light); }
+        
+        /* Mobile Menu */
+        .hamburger { display: none; cursor: pointer; border: none; background: transparent; z-index: 1001; }
+        .hamburger svg { width: 28px; height: 28px; fill: var(--primary); }
 
         /* Hero */
-        .hero { padding: 180px 0 120px; background: linear-gradient(135deg, #0a3642 0%, var(--primary) 100%); color: var(--white); text-align: center; position: relative; overflow: hidden; }
-        .hero::after { content: ''; position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(139,212,96,0.1) 0%, transparent 70%); top: -200px; right: -200px; border-radius: 50%; }
-        .hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); color: var(--white); margin-bottom: 24px; max-width: 900px; margin-left: auto; margin-right: auto; }
+        .hero { 
+            padding: 200px 0 140px; 
+            background: var(--primary); 
+            color: var(--white); 
+            position: relative; 
+            overflow: hidden; 
+        }
+        .hero::before {
+            content: ''; position: absolute; top: -10%; left: -10%; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(139,212,96,0.15) 0%, transparent 70%); border-radius: 50%;
+        }
+        .hero::after {
+            content: ''; position: absolute; bottom: -20%; right: -5%; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(22,107,130,0.4) 0%, transparent 70%); border-radius: 50%;
+        }
+        .hero-content { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; text-align: center; }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 4.8rem); color: var(--white); margin-bottom: 24px; }
         .hero p { font-size: 1.25rem; color: #cbd5e1; max-width: 700px; margin: 0 auto 40px; }
-        .hero-btns { display: flex; gap: 16px; justify-content: center; }
+        .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
-        /* Cards & Grids */
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 48px; align-items: center; }
+        /* Grid System */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 60px; align-items: center; }
         
-        .card { background: var(--white); padding: 40px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); transition: var(--transition); border: 1px solid #f1f5f9; }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); }
-        .card-icon { width: 64px; height: 64px; background: #e0f2fe; color: var(--primary); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 24px; font-weight: bold; }
-        
-        /* Timeline / Alur Kerja */
-        .timeline { position: relative; max-width: 800px; margin: 0 auto; }
-        .timeline::before { content: ''; position: absolute; left: 50%; width: 2px; height: 100%; background: #e2e8f0; transform: translateX(-50%); }
-        .timeline-item { margin-bottom: 40px; position: relative; width: 50%; padding-right: 40px; left: 0; }
-        .timeline-item:nth-child(even) { left: 50%; padding-left: 40px; padding-right: 0; }
-        .timeline-dot { position: absolute; right: -11px; top: 0; width: 24px; height: 24px; background: var(--secondary); border: 4px solid var(--white); border-radius: 50%; z-index: 1; }
-        .timeline-item:nth-child(even) .timeline-dot { left: -11px; }
-        .timeline-content { background: var(--white); padding: 24px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        /* Cards */
+        .card { 
+            background: var(--white); padding: 48px 40px; border-radius: 24px; 
+            box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,0.03); 
+            transition: var(--transition); position: relative; overflow: hidden;
+            height: 100%;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); border-color: rgba(139,212,96,0.2); }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+        }
+        .card:hover::before { transform: scaleX(1); }
+        .icon-wrapper { 
+            width: 72px; height: 72px; background: #f0f9ff; color: var(--primary); 
+            border-radius: 20px; display: flex; align-items: center; justify-content: center; 
+            margin-bottom: 32px; transition: var(--transition);
+        }
+        .card:hover .icon-wrapper { background: var(--primary); color: var(--white); transform: scale(1.05) rotate(5deg); }
+        .icon-wrapper svg { width: 32px; height: 32px; }
 
         /* Stats */
-        .stat-card { text-align: center; padding: 32px; }
-        .stat-num { font-size: 3.5rem; font-weight: 800; color: var(--secondary); margin-bottom: 8px; }
+        .stats-wrapper { background: var(--primary-light); border-radius: 24px; padding: 48px; color: var(--white); }
+        .stat-item { text-align: center; }
+        .stat-num { font-size: 4rem; font-weight: 800; color: var(--secondary); line-height: 1; margin-bottom: 12px; }
 
+        /* Timeline / Alur */
+        .process-wrapper { position: relative; max-width: 900px; margin: 0 auto; }
+        .process-step { display: flex; gap: 40px; margin-bottom: 40px; background: var(--white); padding: 40px; border-radius: 24px; box-shadow: var(--shadow-sm); }
+        .step-number { 
+            font-size: 3rem; font-weight: 800; color: transparent; 
+            -webkit-text-stroke: 2px var(--primary-light); opacity: 0.5;
+            line-height: 1; flex-shrink: 0; transition: var(--transition);
+        }
+        .process-step:hover .step-number { color: var(--secondary); -webkit-text-stroke: 0; opacity: 1; transform: scale(1.1); }
+        .step-content h3 { font-size: 1.5rem; margin-bottom: 12px; }
+
+        /* FAQ Accordion */
+        .faq-item { background: var(--white); border-radius: 16px; margin-bottom: 16px; box-shadow: var(--shadow-sm); overflow: hidden; }
+        .faq-summary { 
+            padding: 24px; font-weight: 600; color: var(--primary); cursor: pointer; 
+            display: flex; justify-content: space-between; align-items: center; user-select: none;
+        }
+        .faq-summary::-webkit-details-marker { display: none; }
+        .faq-summary::after { content: '+'; font-size: 1.5rem; transition: var(--transition); }
+        details[open] .faq-summary::after { transform: rotate(45deg); color: var(--secondary); }
+        .faq-content { padding: 0 24px 24px; color: var(--text-muted); line-height: 1.8; }
+
+        /* CTA Section */
+        .cta-section { background: linear-gradient(135deg, var(--primary) 0%, #0a3642 100%); padding: 100px 24px; text-align: center; border-radius: 40px; margin: 0 24px 100px; color: var(--white); }
+        
         /* Footer */
-        footer { background: #082830; color: #94a3b8; padding: 80px 0 40px; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 60px; }
-        .footer-title { color: var(--white); font-size: 1.1rem; margin-bottom: 24px; }
+        footer { background: #061e25; color: #94a3b8; padding: 100px 0 40px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 80px; }
+        .footer-title { color: var(--white); font-size: 1.1rem; margin-bottom: 32px; }
         .footer-links { list-style: none; }
-        .footer-links li { margin-bottom: 12px; }
+        .footer-links li { margin-bottom: 16px; }
         .footer-links a { color: #94a3b8; transition: var(--transition); }
-        .footer-links a:hover { color: var(--secondary); }
-        .footer-bottom { text-align: center; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .footer-links a:hover { color: var(--secondary); padding-left: 8px; }
+        .footer-bottom { text-align: center; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
 
         /* Animations */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .animate-up { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .animate-up.visible { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
 
+        /* Responsive */
+        @media (max-width: 992px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .process-step { flex-direction: column; gap: 20px; }
+        }
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hero h1 { font-size: 2.5rem; }
-            .timeline::before { left: 24px; }
-            .timeline-item { width: 100%; padding-left: 60px !important; padding-right: 0 !important; left: 0 !important; }
-            .timeline-dot { left: 12px !important; right: auto !important; }
-            .footer-grid { grid-template-columns: 1fr; }
+            .hamburger { display: block; }
+            .nav-links { 
+                position: fixed; top: 84px; left: -100%; width: 100%; height: calc(100vh - 84px);
+                background: var(--white); flex-direction: column; padding: 40px 24px;
+                transition: var(--transition);
+            }
+            .nav-links.active { left: 0; }
+            .hero h1 { font-size: 2.8rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .footer-bottom { flex-direction: column; gap: 20px; }
+            .cta-section { margin: 0 0 60px; border-radius: 0; }
         }
     </style>
 </head>
 <body>
 
     <!-- Navigation -->
-    <nav>
+    <nav id="navbar">
         <div class="container nav-container">
-            <div class="logo">
+            <a href="#" class="logo">
                 <div class="logo-dot"></div>
                 PowerPocket
-            </div>
-            <div class="nav-links">
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            </button>
+            <div class="nav-links" id="nav-links">
                 <a href="#masalah">Masalah</a>
                 <a href="#solusi">Solusi</a>
-                <a href="#fitur">Fitur</a>
-                <a href="#tim">Tim Kami</a>
+                <a href="#alur">Cara Kerja</a>
+                <a href="#faq">FAQ</a>
+                <a href="https://powerpocketdigdayabi.netlify.app/" class="btn btn-primary" style="padding: 12px 28px;">Coba Prototype</a>
             </div>
-            <a href="https://powerpocketdigdayabi.netlify.app/" class="btn btn-primary" style="padding: 10px 24px;">Coba App</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="container reveal active">
-            <h1>Mendefinisikan Ulang Akses Keuangan Keluarga.</h1>
-            <p>Platform distribusi dana cerdas yang aman, inklusif, dan berada dalam kendali penuh Anda. Tanpa perlu berbagi kartu fisik, PIN, atau aplikasi perbankan yang rumit.</p>
+        <div class="container hero-content animate-up visible">
+            <h1>Keamanan Finansial <br><span class="gradient-text">Tanpa Batasan Teknologi</span></h1>
+            <p>Platform distribusi dana cerdas untuk keluarga. Kirim dana secara terkontrol menggunakan token sekali pakai tanpa perlu penerima memiliki rekening bank atau aplikasi rumit [cite: 1].</p>
             <div class="hero-btns">
-                <a href="https://powerpocketdigdayabi.netlify.app/" class="btn btn-primary">Mulai Sekarang</a>
-                <a href="#cara-kerja" class="btn btn-outline">Pelajari Cara Kerja</a>
+                <a href="https://powerpocketdigdayabi.netlify.app/" class="btn btn-primary">
+                    Akses Prototype
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#masalah" class="btn btn-outline">Pelajari Lebih Lanjut</a>
             </div>
         </div>
     </section>
 
     <!-- Problem Section -->
-    <section id="masalah" class="section section-light">
+    <section id="masalah" class="section">
         <div class="container">
-            <div class="text-center mb-8 reveal">
-                <h2>Mengapa PowerPocket Hadir?</h2>
-                <p style="max-width: 600px; margin: 0 auto;">Distribusi dana dalam keluarga modern saat ini masih diwarnai oleh risiko keamanan dan kurangnya inklusivitas digital.</p>
+            <div class="text-center mb-10 animate-up">
+                <h2 style="font-size: 2.5rem;">Mengapa PowerPocket Hadir?</h2>
+                <p style="max-width: 600px; margin: 0 auto;">Distribusi dana dalam keluarga modern saat ini masih rentan terhadap risiko keamanan dan meminggirkan kelompok non-digital [cite: 1].</p>
             </div>
+            
             <div class="grid-3">
-                <div class="card reveal">
-                    <div class="card-icon">1</div>
+                <div class="card animate-up">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M12 8v4l3 3"/></svg>
+                    </div>
                     <h3>Hilangnya Kendali Dana</h3>
-                    <p>Setelah uang ditransfer melalui bank konvensional, pengirim kehilangan kendali penuh atas bagaimana, di mana, dan kapan dana tersebut digunakan oleh penerima.</p>
+                    <p>Setelah uang ditransfer, pengirim kehilangan kendali penuh atas penggunaan dana tersebut. Tidak ada jaminan dana digunakan sesuai peruntukannya [cite: 1].</p>
                 </div>
-                <div class="card reveal" style="transition-delay: 0.1s;">
-                    <div class="card-icon">2</div>
+                
+                <div class="card animate-up delay-1">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                    </div>
                     <h3>Risiko Berbagi Akses</h3>
-                    <p>Banyak masyarakat terpaksa membagikan kartu ATM dan PIN kepada anggota keluarga (lansia/anak-anak), yang secara drastis meningkatkan risiko <em>fraud</em> dan penyalahgunaan.</p>
+                    <p>Membagikan kartu ATM dan PIN kepada anggota keluarga (seperti lansia) sangat berisiko, memicu kasus <em>fraud</em> dan penyalahgunaan akses [cite: 1].</p>
                 </div>
-                <div class="card reveal" style="transition-delay: 0.2s;">
-                    <div class="card-icon">3</div>
-                    <h3>Hambatan Inklusi Finansial</h3>
-                    <p>Kelompok <em>unbanked</em> kesulitan mengakses dana instan karena prosedur perbankan yang kompleks dan kurangnya kemampuan navigasi aplikasi digital (literasi rendah).</p>
+                
+                <div class="card animate-up delay-2">
+                    <div class="icon-wrapper">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                    </div>
+                    <h3>Hambatan Inklusi</h3>
+                    <p>Kelompok <em>unbanked</em> kesulitan mengakses dana instan karena rumitnya birokrasi perbankan dan kurangnya literasi navigasi aplikasi [cite: 1].</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Solution / Stats Section -->
-    <section id="solusi" class="section section-dark">
+    <!-- Solution Section -->
+    <section id="solusi" class="section" style="background-color: var(--white);">
         <div class="container">
-            <div class="grid-2 reveal">
-                <div>
-                    <h2>Solusi: Delegated Money Access</h2>
-                    <p class="mb-4">PowerPocket menerapkan mekanisme inovatif di mana dana ditempatkan dalam status <em>hold</em> sebelum dicairkan. Pengirim dapat menentukan nominal, masa berlaku, dan lokasi pencairan.</p>
-                    <p>Sistem kami menghasilkan QR Code, Virtual Account, dan PIN sekali pakai yang dapat dicairkan langsung oleh penerima di ATM atau merchant mitra tanpa perlu aplikasi tambahan.</p>
+            <div class="grid-2">
+                <div class="animate-up">
+                    <h2 style="font-size: 2.5rem; margin-bottom: 24px;">Solusi: <span class="gradient-text">Delegated Money Access</span></h2>
+                    <p class="mb-4">PowerPocket menerapkan mekanisme inovatif di mana dana ditempatkan dalam status <em>hold</em> sebelum dicairkan. Anda menentukan nominal, batas waktu, dan lokasi secara presisi [cite: 1].</p>
+                    <p class="mb-4">Sistem menghasilkan QR Code / VA 16-digit sekali pakai yang dikirim via WhatsApp. Penerima mencairkan dana di ATM/Merchant tanpa perlu mendaftar akun bank [cite: 1].</p>
+                    <ul style="list-style: none; margin-top: 24px;">
+                        <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <strong>Revocation:</strong> Tarik kembali dana sebelum dicairkan [cite: 1].
+                        </li>
+                        <li style="margin-bottom: 12px; display: flex; align-items: center; gap: 12px;">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--secondary)" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <strong>Zero-Interaction:</strong> Sangat mudah bagi lansia & anak [cite: 1].
+                        </li>
+                    </ul>
                 </div>
-                <div class="grid-2" style="gap: 20px;">
-                    <div class="stat-card">
-                        <div class="stat-num">88%</div>
-                        <p>Responden menginginkan mekanisme kontrol dana yang lebih baik</p>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-num">82%</div>
-                        <p>Tertarik pada fitur pembatalan transaksi secara real-time</p>
+                <div class="stats-wrapper animate-up delay-1">
+                    <div style="display: grid; gap: 40px;">
+                        <div class="stat-item">
+                            <div class="stat-num">88%</div>
+                            <p>Responden mendambakan mekanisme kontrol pengiriman dana yang lebih ketat dan aman [cite: 1].</p>
+                        </div>
+                        <div style="height: 1px; background: rgba(255,255,255,0.2);"></div>
+                        <div class="stat-item">
+                            <div class="stat-num">82%</div>
+                            <p>Sangat tertarik pada fitur pembatalan transaksi secara <em>real-time</em> [cite: 1].</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- How It Works Section -->
-    <section id="cara-kerja" class="section section-light">
+    <!-- How It Works (Timeline) -->
+    <section id="alur" class="section">
         <div class="container">
-            <div class="text-center mb-8 reveal">
-                <h2>Alur Kerja Cerdas & Aman</h2>
-                <p>Proses distribusi dana yang dirancang sesederhana mungkin untuk pengguna inklusif.</p>
+            <div class="text-center mb-10 animate-up">
+                <h2 style="font-size: 2.5rem;">Alur Kerja Sistem</h2>
+                <p>Proses enkripsi canggih di balik layar, dengan pengalaman pengguna yang sangat sederhana.</p>
             </div>
-            <div class="timeline">
-                <div class="timeline-item reveal">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>1. Input & Personalisasi</h3>
-                        <p>Pengirim menentukan nominal, batas waktu, dan lokasi (Merchant/ATM ID) melalui aplikasi PowerPocket. Dana ditarik dan di-<em>hold</em> dengan aman.</p>
+            
+            <div class="process-wrapper">
+                <div class="process-step animate-up">
+                    <div class="step-number">01</div>
+                    <div class="step-content">
+                        <h3>Input & Personalisasi (Web-App)</h3>
+                        <p>Pengirim menentukan nominal, durasi akses, dan ID lokasi (ATM/Merchant). Dana dipotong dan diamankan (<em>hold</em>) oleh sistem bank [cite: 1].</p>
                     </div>
                 </div>
-                <div class="timeline-item reveal">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>2. Kriptografi Berlapis</h3>
-                        <p>Sistem bank melakukan <em>Hashing</em>, Tanda Tangan Digital, dan Enkripsi RSA 2048-bit untuk menghasilkan QR Code atau VA 16-digit yang unik.</p>
+                
+                <div class="process-step animate-up">
+                    <div class="step-number">02</div>
+                    <div class="step-content">
+                        <h3>Kriptografi Berlapis (Bank Back-End)</h3>
+                        <p>Sistem menerapkan <em>Hashing</em>, Tanda Tangan Digital, dan Enkripsi RSA 2048-bit dengan Public Key ATM tujuan. Transaksi aman dari modifikasi pihak ketiga [cite: 1].</p>
                     </div>
                 </div>
-                <div class="timeline-item reveal">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>3. Distribusi Instan</h3>
-                        <p>Pengirim membagikan QR Code tersebut ke penerima (anak/lansia) melalui WhatsApp, SMS, atau media lainnya.</p>
+                
+                <div class="process-step animate-up">
+                    <div class="step-number">03</div>
+                    <div class="step-content">
+                        <h3>Distribusi Token Instan</h3>
+                        <p>Sistem meng-<em>generate</em> QR Code / VA 16-digit unik. Pengirim meneruskannya ke penerima via WhatsApp atau di-<em>print</em> secara fisik [cite: 1].</p>
                     </div>
                 </div>
-                <div class="timeline-item reveal">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <h3>4. Pencairan Zero-Interaction</h3>
-                        <p>Penerima cukup menunjukkan kode QR ke pemindai mesin ATM/Merchant. Verifikasi offline & online otomatis melepaskan dana tanpa aplikasi tambahan.</p>
+
+                <div class="process-step animate-up">
+                    <div class="step-number">04</div>
+                    <div class="step-content">
+                        <h3>Pencairan Zero-Interaction</h3>
+                        <p>Penerima memindai QR di sensor kamera ATM mitra. ATM memvalidasi batas waktu dan lokasi secara otomatis, lalu melepaskan dana [cite: 1].</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="fitur" class="section" style="background-color: var(--white);">
+    <!-- FAQ Section -->
+    <section id="faq" class="section" style="background-color: var(--white);">
         <div class="container">
-            <div class="text-center mb-8 reveal">
-                <h2>Keunggulan Inovasi</h2>
+            <div class="text-center mb-10 animate-up">
+                <h2 style="font-size: 2.5rem;">Pertanyaan Umum</h2>
+                <p>Ketahui lebih lanjut mengenai teknis dan keamanan PowerPocket.</p>
             </div>
-            <div class="grid-3">
-                <div class="card reveal">
-                    <h3>Keamanan Trust-by-System</h3>
-                    <p>Menghilangkan praktik berisiko berbagi PIN. Menerapkan <em>Zero-Knowledge for Payee</em> dan <em>Non-Repudiation</em> melalui Digital Signature.</p>
-                </div>
-                <div class="card reveal">
-                    <h3>Kendali Penuh & Revocation</h3>
-                    <p>Fitur pembatalan transaksi secara real-time sebelum dana dicairkan, memberikan ketenangan pikiran bagi pengirim.</p>
-                </div>
-                <div class="card reveal">
-                    <h3>Extreme User Accessibility</h3>
-                    <p>Antarmuka <em>zero-interaction</em> bagi penerima. Cukup pindai QR yang dicetak atau di layar HP, sangat ramah lansia dan anak-anak.</p>
-                </div>
-                <div class="card reveal">
-                    <h3>Skalabilitas Institusional</h3>
-                    <p>Mendukung model B2B/B2G melalui integrasi API untuk penyaluran bantuan sosial pemerintah atau institusi pendidikan secara transparan.</p>
-                </div>
-                <div class="card reveal">
-                    <h3>Optimasi Infrastruktur</h3>
-                    <p>Mendorong utilisasi jaringan ATM dan merchant lokal sebagai poin distribusi bantuan untuk masyarakat non-nasabah.</p>
-                </div>
-                <div class="card reveal">
-                    <h3>Offline Capability</h3>
-                    <p>ATM dapat memvalidasi QR secara lokal menggunakan kriptografi Kunci Publik untuk mempercepat proses di lokasi dengan infrastruktur jaringan terbatas.</p>
-                </div>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <details class="faq-item animate-up">
+                    <summary class="faq-summary">Apakah penerima dana harus memiliki akun perbankan?</summary>
+                    <div class="faq-content">
+                        Tidak. Penerima sama sekali tidak membutuhkan rekening bank, aplikasi keuangan, ataupun <em>smartphone</em> canggih. Mereka cukup menunjukkan kode QR (bisa di layar HP biasa atau dicetak di kertas) ke mesin ATM atau Merchant mitra kami [cite: 1].
+                    </div>
+                </details>
+                <details class="faq-item animate-up delay-1">
+                    <summary class="faq-summary">Bagaimana jika QR Code dicuri atau disalin orang lain?</summary>
+                    <div class="faq-content">
+                        Sistem kami menggunakan validasi lokasi (Geofencing) dan durasi waktu. Selain itu, terdapat mekanisme PIN sekali pakai. Jika transaksi belum terjadi, pengirim dapat melakukan <em>Revocation</em> (pembatalan) seketika melalui dashboard PowerPocket dan uang kembali sepenuhnya [cite: 1].
+                    </div>
+                </details>
+                <details class="faq-item animate-up delay-2">
+                    <summary class="faq-summary">Apakah ini bisa diimplementasikan oleh pihak institusi/kampus?</summary>
+                    <div class="faq-content">
+                        Sangat bisa. Kami merancang arsitektur API <em>Integration Layer</em> (B2B/B2G) yang memungkinkan kampus, perusahaan CSR, atau pemerintah menyalurkan dana bantuan langsung ke target penerima tanpa hambatan administrasi pembukaan rekening masal [cite: 1].
+                    </div>
+                </details>
             </div>
         </div>
     </section>
 
-    <!-- Team Section -->
-    <section id="tim" class="section section-light">
-        <div class="container text-center reveal">
-            <h2 class="mb-2">Tim Pengembang</h2>
-            <p class="mb-8">Inovasi ini didukung oleh profesional di bidang keamanan siber dan pengembangan produk.</p>
-            <div class="grid-3">
-                <div class="card">
-                    <h3 class="mb-2">M. Mubdya Barry Sahya</h3>
-                    <p style="color: var(--primary); font-weight: 600;">Lead Dev & Product Designer</p>
-                    <p style="font-size: 0.9rem;">Fokus pada arsitektur teknis dan pengembangan sistem yang tangguh.</p>
-                </div>
-                <div class="card">
-                    <h3 class="mb-2">Gagas</h3>
-                    <p style="color: var(--primary); font-weight: 600;">Lead Ideator & UX Researcher</p>
-                    <p style="font-size: 0.9rem;">Fokus pada validasi masalah dan merancang pengalaman pengguna yang inklusif.</p>
-                </div>
-                <div class="card">
-                    <h3 class="mb-2">Galih</h3>
-                    <p style="color: var(--primary); font-weight: 600;">Business Analyst & Strategist</p>
-                    <p style="font-size: 0.9rem;">Fokus pada pemodelan bisnis, kemitraan, dan skalabilitas pasar.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- CTA Section -->
+    <div class="container animate-up">
+        <section class="cta-section">
+            <h2 style="font-size: 3rem; margin-bottom: 24px;">Siap Mendukung Inklusi Finansial?</h2>
+            <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px; color: #cbd5e1;">Mari berkolaborasi membangun ekosistem distribusi dana yang aman dan memberdayakan seluruh lapisan masyarakat [cite: 1].</p>
+            <a href="https://powerpocketdigdayabi.netlify.app/" class="btn btn-primary" style="padding: 18px 40px; font-size: 1.1rem;">
+                Coba Prototype MVP
+            </a>
+        </section>
+    </div>
 
     <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <div class="logo mb-4" style="color: var(--white);">
+                    <a href="#" class="logo mb-4" style="color: var(--white);">
                         <div class="logo-dot"></div>
                         PowerPocket
-                    </div>
-                    <p style="max-width: 300px;">Platform akses keuangan terkontrol untuk distribusi uang yang aman dan inklusif bagi keluarga Indonesia.</p>
+                    </a>
+                    <p style="max-width: 300px; font-size: 0.95rem; margin-top: 20px;">
+                        Dikembangkan oleh Tim Profesional Cybersecurity untuk Hackathon x Digdaya 2026 [cite: 1].
+                    </p>
                 </div>
                 <div>
-                    <h4 class="footer-title">Perusahaan</h4>
+                    <h4 class="footer-title">Tim & Institusi</h4>
                     <ul class="footer-links">
-                        <li><a href="#masalah">Masalah & Solusi</a></li>
-                        <li><a href="#cara-kerja">Cara Kerja</a></li>
-                        <li><a href="#fitur">Fitur Utama</a></li>
-                        <li><a href="#tim">Tim Kami</a></li>
+                        <li><a href="#">M. Mubdya Barry Sahya (Lead)</a></li>
+                        <li><a href="#">Gagas (UX Researcher)</a></li>
+                        <li><a href="#">Galih (Business Analyst)</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="footer-title">Kemitraan</h4>
+                    <h4 class="footer-title">Solusi</h4>
                     <ul class="footer-links">
-                        <li><a href="#">Bank & Fintech</a></li>
-                        <li><a href="#">Merchant (Minimarket)</a></li>
-                        <li><a href="#">Institusi & Pemerintah</a></li>
+                        <li><a href="#">Delegated Money Access</a></li>
+                        <li><a href="#">B2G Bantuan Sosial</a></li>
+                        <li><a href="#">API Integration</a></li>
+                        <li><a href="#">Keamanan Kriptografi</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="footer-title">Hubungi Kami</h4>
+                    <h4 class="footer-title">Kontak Hubungan</h4>
                     <ul class="footer-links">
-                        <li>Tim PowerPocket</li>
                         <li><a href="mailto:info@powerpocket.com">info@powerpocket.com</a></li>
-                        <li><a href="https://wa.me/6281283997495">+62 812-8399-7495</a></li>
+                        <li><a href="https://wa.me/6281283997495">WhatsApp: +62 812-8399-7495</a></li>
+                        <li><a href="https://github.com/mmbarrys/digdaya2026/">GitHub Repository</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 PowerPocket. All rights reserved.</p>
+                <p>&copy; 2026 PowerPocket Team. All rights reserved [cite: 1].</p>
+                <div style="display: flex; gap: 20px;">
+                    <a href="#" style="color: #94a3b8;">Privacy Policy</a>
+                    <a href="#" style="color: #94a3b8;">Terms of Service</a>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Simple Scroll Animation Script -->
+    <!-- Interactive Script -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const reveals = document.querySelectorAll('.reveal');
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu Toggle
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('nav-links');
             
-            function reveal() {
-                const windowHeight = window.innerHeight;
-                const elementVisible = 100;
-                
-                reveals.forEach(reveal => {
-                    const elementTop = reveal.getBoundingClientRect().top;
-                    if (elementTop < windowHeight - elementVisible) {
-                        reveal.classList.add('active');
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+
+            // Navbar scroll effect
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Intersection Observer for scroll animations
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Optional: unobserve after revealing if you only want it to animate once
+                        // observer.unobserve(entry.target); 
                     }
                 });
-            }
-            
-            window.addEventListener('scroll', reveal);
-            reveal(); // Trigger on load
+            }, observerOptions);
+
+            const animatedElements = document.querySelectorAll('.animate-up');
+            animatedElements.forEach(el => observer.observe(el));
         });
     </script>
 </body>
 </html>
-index_complete.html
-Displaying index_complete.html.
+index_pro.html
+Displaying index_pro.html.
